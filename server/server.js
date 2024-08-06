@@ -14,6 +14,7 @@ dotenv.config();
 const app = express();
 const port = process.env.PORT || 5000;
 app.use(bodyParser.json());
+app.use(express.static(path.join(__dirname, "../client/build")));
 
 /*
 All the API calls are listed below:
@@ -169,6 +170,11 @@ app.post("/api/updateItems", async (req, res) => {
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
+});
+
+// Handles any requests that don't match the ones above
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "../client/build/index.html"));
 });
 
 app.listen(port, () => {
