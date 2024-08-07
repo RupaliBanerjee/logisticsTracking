@@ -4,7 +4,7 @@ import { GroupBase, OptionsOrGroups } from "react-select";
 import { Additional, Option } from "../../../utils/types";
 
 import axios from "axios";
-import { useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import Notifications from "../../common/Notifications";
 import { formFields, getDefaultFormData, loadOptions } from "./FormUtil";
 
@@ -38,6 +38,7 @@ function ValueLabelComponent(props: SliderValueLabelProps) {
 
 const RateCardForm = () => {
   const [searchParams] = useSearchParams();
+  const navigate = useNavigate();
   const [formData, setFormData] = useState<{ [key: string]: Option | null }>({
     Rate_Card_ID: null,
     Supplier_ID: null,
@@ -73,6 +74,7 @@ const RateCardForm = () => {
         updatedEntry,
       });
       console.log("Check response for create call:", response.data);
+      navigate("/");
     } catch (err) {
       setOpenNotification(true);
     }
@@ -83,6 +85,7 @@ const RateCardForm = () => {
     try {
       const response = await axios.post("/api/addItems", updatedEntry);
       console.log("Check response for create rate card:", response.data);
+      navigate("/");
     } catch (err) {
       setOpenNotification(true);
     }
